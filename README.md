@@ -2,7 +2,8 @@
 
 This React Audio Player is a versatile application developed using React (TypeScript) that integrates WaveSurfer.js and Material-UI for a rich user experience in audio playback and manipulation. Follows the instruction given within the Audio Player scope challenge from staccato ai. Features are listed below
 
-<div style="position: relative; padding-bottom: 63.49206349206349%; height: 0;"><iframe src="https://www.loom.com/embed/08b2bdf3096246358dd33d986dfccd0a?sid=72d939ce-df7b-4357-8186-f5fe5306631d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+https://www.loom.com/share/08b2bdf3096246358dd33d986dfccd0a?sid=53a9c865-c29d-4af3-bc61-ff3096fe9426
+
 
 ## Features
 - **Upload**: Users can upload audio files to be processed and displayed as waveforms.
