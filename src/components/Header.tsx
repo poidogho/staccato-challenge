@@ -1,13 +1,15 @@
-import React from 'react'
+import styled from 'styled-components';
 
 type HeaderProps = {
-    headerText: string
-}
+  headerText: string;
+};
 
-const Header: React.FC<HeaderProps> = ({headerText}) => {
-  return (
-    <h1>{headerText}</h1>
-  )
-}
+const Header: React.FC<HeaderProps> = ({ headerText }) => {
+  return <Head>{headerText}</Head>;
+};
 
-export default Header
+const Head = styled.h1`
+  margin: 20px;
+`;
+
+export default Header;

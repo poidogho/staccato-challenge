@@ -52,8 +52,10 @@ const LoopModal: React.FC<LoopModalProps> = ({ submitLoopNum }) => {
   };
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Repeat Section</Button>
+    <Container>
+      <Button onClick={handleOpen} variant='outlined'>
+        Repeat Section
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -77,7 +79,7 @@ const LoopModal: React.FC<LoopModalProps> = ({ submitLoopNum }) => {
               />
             </NumberOfLoop>
 
-            <Paragraph>Or</Paragraph>
+            <Paragraph>OR</Paragraph>
 
             <FormControlLabel
               control={
@@ -91,11 +93,15 @@ const LoopModal: React.FC<LoopModalProps> = ({ submitLoopNum }) => {
           </SelectedOptionBtn>
         </Box>
       </Modal>
-    </div>
+    </Container>
   );
 };
 
 export default LoopModal;
+
+const Container = styled(Box)`
+  margin-left: 15px;
+`;
 
 const Paragraph = styled(Typography)`
   padding: 10px;
@@ -114,7 +120,6 @@ const LoopOptions = styled(Box)`
 `;
 
 const SelectedOptionBtn = styled(Button)`
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 10px !important;
+  margin-left: 22% !important;
 `;

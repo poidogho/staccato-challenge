@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import styled from 'styled-components';
 
 type AudioUploaderProps = {
   handleUpload: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -20,11 +21,15 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ handleUpload }) => {
   };
 
   return (
-    <div>
+    <Container>
       <input type='file' accept='.mp3' onChange={handleFileUpload} />
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  margin-left: 20px;
+`;
 
 export default AudioUploader;

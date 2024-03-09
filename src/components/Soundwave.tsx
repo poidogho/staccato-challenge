@@ -4,17 +4,14 @@ import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions';
 import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { WaveSurfer, WaveForm, Region } from 'wavesurfer-react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import LoopModal from './LoopModal';
+import { trimWave } from '../utils/soundwave';
 
 // https://codesandbox.io/p/sandbox/wavesurfer-react-3-0-w8vr3m?file=%2Fsrc%2Findex.js%3A332%2C5
-
-const Buttons = styled.div`
-  display: inline-block;
-`;
 
 function generateNum(min: number, max: number) {
   return Math.random() * (max - min + 1) + min;
@@ -139,51 +136,11 @@ const SoundWave: React.FC<SoundWaveProps> = ({ url, audioBuffer }) => {
   };
 
   const cutAWave = () => {
-    // const region = wavesurferRef.current.plugins[0].regions[0];
-    const region = wavesurferRef.current.getActivePlugins()[0].regions[0];
-    const { numberOfChannels, sampleRate } =
-      wavesurferRef.current.getDecodedData();
-    const bitsPerSample = 16;
-    const bytesPerSample = (bitsPerSample / 8) * numberOfChannels;
-    const startByteIndex = Math.floor(
-      region?.start * sampleRate * bytesPerSample
-    );
-    const endByteIndex = Math.ceil(region?.end * sampleRate * bytesPerSample);
-    // const splicedBuffer = audioBuffer.slice(
-    //   startByteIndex,
-    //   endByteIndex
-    // );
-
-    const firstPart = audioBuffer.slice(0, startByteIndex);
-
-    // Slice the second part of the buffer
-    const secondPart = audioBuffer.slice(endByteIndex);
-
-    // Create a new ArrayBuffer that is the size of the two parts
-    const newBuffer = new ArrayBuffer(
-      firstPart.byteLength + secondPart.byteLength
-    );
-
-    // Create views for each part
-    const firstPartView = new Uint8Array(firstPart);
-    const secondPartView = new Uint8Array(secondPart);
-
-    // Copy the first part into the new buffer
-    new Uint8Array(newBuffer).set(firstPartView);
-
-    // Copy the second part into the new buffer, at the offset
-    new Uint8Array(newBuffer).set(secondPartView, firstPartView.length);
-
-    const audioBlob = new Blob([newBuffer], { type: 'audio/wav' });
-    const blobUrl = URL.createObjectURL(audioBlob);
-
-    // wavesurferRef.current.loadBlob(audioBlob);
-    wavesurferRef.current.load(blobUrl);
+    trimWave(wavesurferRef.current, audioBuffer);
     setRegions([]);
   };
 
   const handleOnLeave = () => {
-    console.log('handleOnLeave', { loopCount });
     const region = wavesurferRef.current.getActivePlugins()[0].regions[0];
     if (loopCount > 0) {
       region.play();
@@ -196,15 +153,11 @@ const SoundWave: React.FC<SoundWaveProps> = ({ url, audioBuffer }) => {
 
   const submitLoopNum = (isInfinity: boolean, numOfLoop: number) => {
     loopRegion();
-    if (!isInfinity) {
-      setLoopCount(numOfLoop);
-    } else {
-      setLoopCount(-1);
-    }
+    setLoopCount(!isInfinity ? numOfLoop : -1);
   };
 
   return (
-    <div className='App'>
+    <Container className='App'>
       <WaveSurfer
         plugins={plugins}
         onMount={handleWSMount}
@@ -234,16 +187,28 @@ const SoundWave: React.FC<SoundWaveProps> = ({ url, audioBuffer }) => {
         </Button>
         {regions?.length ? (
           <>
-            {' '}
-            <Button onClick={cutAWave}>Cut Wave</Button>
+            <Button variant='outlined' onClick={cutAWave}>
+              Cut Wave
+            </Button>
             <LoopModal submitLoopNum={submitLoopNum} />
           </>
         ) : (
-          <Button onClick={generateRegion}>Select a Region</Button>
+          <Button onClick={generateRegion} variant='outlined'>
+            Select a Region
+          </Button>
         )}
       </Buttons>
-    </div>
+    </Container>
   );
 };
+
+const Buttons = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+
+const Container = styled(Box)`
+  margin: 20px;
+`;
 
 export default SoundWave;
