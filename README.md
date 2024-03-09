@@ -31,14 +31,14 @@ This React Audio Player is a versatile application developed using React (TypeSc
 ### Installation
 
 ```sh
-   git clone https://github.com/yourusername/your-project-name.git
+   git clone git@github.com:poidogho/staccato-challenge.git
 ```
 
 ```sh
-npm install
+   npm install
 ```
 
 ```sh
-npm run dev
+   npm run dev
 ```
 
